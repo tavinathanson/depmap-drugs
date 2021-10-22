@@ -25,6 +25,7 @@ Definitions:
 * HTS vs. MTS screens: HTS is pin-transfer directly from a compound plate
 
 *Example: Known MOA BRAF inhibitor AZ628 is included; we expect cell lines with BRAFV600E mutation to be more sensitive (this is shown)
+
 **e.g. ignore cell lines if they don't react very differently to negative vs. positive controls:
  * Negative controls: treated only with the vehicle solution (e.g. saline)
  * Positive controls: treated with a potent killer-of-everything
@@ -37,5 +38,5 @@ Resources:
 Summary:
 * Use PRISM to test 4,518 drugs (3,466 non-oncology-related) against 578 cell lines
 * Screen in two stages:
- * Primary: all drugs screened, with three replicate wells per drug-pool
- * Secondary: 1,448 of those drugs were chosen for dose-response testing at 8 dose levels
+  * Primary: all drugs screened, with three replicate wells per drug-pool
+  * Secondary: 1,448 of those drugs were chosen for dose-response testing at 8 dose levels
