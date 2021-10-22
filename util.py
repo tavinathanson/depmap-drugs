@@ -16,19 +16,22 @@ def get_processed_data(drugs_as_features=False, impute=False):
     df_collapsed = pd.read_csv(
         path.join(DATA_DIR, "primary-screen-replicate-collapsed-logfold-change.csv")
     )
-    df_info = pd.read_csv(
-        path.join(DATA_DIR, "primary-screen-replicate-collapsed-treatment-info.csv")
-    ).set_index("column_name")
 
     if not drugs_as_features:
         # Transpose so that each column is a feature (cell line), each row is a sample (drug)
         df_collapsed = (
             df_collapsed.rename(columns={"Unnamed: 0": "drug"}).set_index("drug").T
         )
+        df_info = pd.read_csv(
+            path.join(DATA_DIR, "primary-screen-replicate-collapsed-treatment-info.csv")
+        ).set_index("column_name")
     else:
         df_collapsed = df_collapsed.rename(
             columns={"Unnamed: 0": "cell_line"}
         ).set_index("cell_line")
+        df_info = pd.read_csv(
+            path.join(DATA_DIR, "primary-screen-cell-line-info.csv")
+        ).set_index("row_name")
 
     if impute:
         df_collapsed = df_collapsed.fillna(df_collapsed.mean())
@@ -38,6 +41,12 @@ def get_processed_data(drugs_as_features=False, impute=False):
 def get_cell_line_info():
     return pd.read_csv(
         path.join(DATA_DIR, "primary-screen-cell-line-info.csv")
+    ).set_index("row_name")
+
+
+def get_pool_info():
+    return pd.read_csv(
+        path.join(DATA_DIR, "primary-screen-pooling-info.csv")
     ).set_index("row_name")
 
 
