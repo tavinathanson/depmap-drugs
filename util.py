@@ -4,6 +4,10 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score, accuracy_score, balanced_accuracy_score
+import matplotlib.pyplot as plt
+import umap
+import seaborn as sb
+
 
 DATA_DIR = "data"
 
@@ -65,3 +69,30 @@ def logistic_regression_auc(x_values, y_values):
         )
     )
     return model
+
+
+def run_umap(
+    df,
+    n_neighbors=7,
+    min_dist=0.5,
+    n_components=2,
+    metric="correlation",
+    extra_cols=[],
+):
+    umap_fitter = umap.UMAP(
+        n_neighbors=n_neighbors,
+        min_dist=min_dist,
+        n_components=n_components,
+        metric=metric,
+    )
+    df_orig = df
+    df = df_orig.drop(columns=extra_cols)
+    umap_result = umap_fitter.fit_transform(df)
+    df_umap = pd.DataFrame(umap_result).rename(columns={0: "umap_0", 1: "umap_1"})
+    return df_umap.join(df_orig.reset_index()[extra_cols])
+
+
+def draw_umap(df_umap, x="umap_0", y="umap_1", hue=None, legend="auto"):
+    fig = plt.figure(figsize=(15, 15))
+    ax = fig.add_subplot(111)
+    sb.scatterplot(data=df_umap, x=x, y=y, ax=ax, hue=hue, legend=legend)
